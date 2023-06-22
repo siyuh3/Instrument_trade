@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @program: Instruments
@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author: Siyu Hou
  * @create: 2023-06-17 16:29
  **/
-@Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class InstrumentController {
     private final InstrumentService service;
 
@@ -25,7 +26,7 @@ public class InstrumentController {
         this.service = service;
     }
 
-    @PostMapping(value = "instrument", consumes = "application/json")
+    @PostMapping(value = "/instrument", consumes = "application/json")
     public ResponseEntity<Object> createInstrument(@RequestBody Instrument instrument) {
         try {
             Instrument createInstrument = service.createInstrument(instrument);
@@ -33,5 +34,11 @@ public class InstrumentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e);
         }
+    }
+
+
+    @GetMapping(value = "/instruments")
+    public List<Instrument> listAllInstruments() {
+        return service.listAllInstruments();
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * @program: Instruments
  * @description:
@@ -24,5 +26,9 @@ public class InstrumentService {
     @Transactional
     public Instrument createInstrument(Instrument instrument) {
         return instrumentDAO.createInstrument(instrument);
+    }
+
+    public List<Instrument> listAllInstruments() {
+        return instrumentDAO.listAllInstruments();
     }
 }

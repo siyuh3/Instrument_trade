@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @program: Instruments
  * @description:
@@ -23,5 +25,16 @@ public class InstrumentDAO {
         String sql = "INSERT INTO instrument (id, instrument_name, instrument_info) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, instrument.getId(), instrument.getName(), instrument.getInfo());
         return instrument;
+    }
+
+    public List<Instrument> listAllInstruments() {
+        String sql = "SELECT * FROM Instrument";
+        return jdbcTemplate.query(sql, (resultSet, row) -> {
+            Instrument instrument = new Instrument();
+            instrument.setId(resultSet.getInt("id"));
+            instrument.setName(resultSet.getString("instrument_name"));
+            instrument.setInfo(resultSet.getString("instrument_info"));
+            return instrument;
+        });
     }
 }
